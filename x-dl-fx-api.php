@@ -154,32 +154,30 @@ function get_resolution($resolution)
 
 
 
-
 function get_remote_file_info($url) {
-    $maxRetries = 1;
-    $retryDelay = 500 * 1000; // 100ms in microseconds
     $fileSize = -1;
     $httpResponseCode = 0;
 
-    for ($i = 0; $i < $maxRetries; $i++) {
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HEADER, true);
-        curl_setopt($ch, CURLOPT_NOBODY, true);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // Follow redirects
+    // Initialize cURL session
+    $ch = curl_init($url);
 
-        curl_exec($ch);
-        $fileSize = curl_getinfo($ch, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
-        $httpResponseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
+    // Set cURL options
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);   // Return the transfer as a string
+    curl_setopt($ch, CURLOPT_HEADER, true);           // Include the header in the output
+    curl_setopt($ch, CURLOPT_NOBODY, true);           // Exclude the body from the output
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);   // Follow any redirects
 
-        if (($fileSize > 0 || $httpResponseCode != 200)) {
-            break; // Exit loop if file size is obtained or error code is not 200
-        }
+    // Execute cURL session
+    curl_exec($ch);
 
-        usleep($retryDelay); // Delay 100ms before retry
-    }
+    // Get file size and HTTP response code
+    $fileSize = curl_getinfo($ch, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
+    $httpResponseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
+    // Close cURL session
+    curl_close($ch);
+
+    // Return an array with the results
     return array(
         'statusCode' => $httpResponseCode,
         'fileExists' => ($httpResponseCode == 200),
