@@ -156,8 +156,8 @@ function get_resolution($resolution)
 
 
 function get_remote_file_info($url, $forceMaxRetries = true) {
-    $maxRetries = 3;
-    $retryDelay = 100 * 1000; // 100ms in microseconds
+    $maxRetries = 10;
+    $retryDelay = 500 * 1000; // 100ms in microseconds
     $fileSize = -1;
     $httpResponseCode = 0;
 
@@ -186,6 +186,7 @@ function get_remote_file_info($url, $forceMaxRetries = true) {
         'fileSize' => (int) $fileSize
     );
 }
+
 
 
 function call()
@@ -231,7 +232,7 @@ function call()
 
 
 
-                    $response_code = get_remote_file_info($URL)["statusCode"];
+                    $response_code = get_remote_file_info($URL, false)["statusCode"];
 
 
 

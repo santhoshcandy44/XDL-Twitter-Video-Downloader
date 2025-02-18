@@ -172,8 +172,8 @@ function get_resolution($resolution)
 
 
 function get_remote_file_info($url, $forceMaxRetries = true) {
-    $maxRetries = 3;
-    $retryDelay = 100 * 1000; // 100ms in microseconds
+    $maxRetries = 10;
+    $retryDelay = 500 * 1000; // 100ms in microseconds
     $fileSize = -1;
     $httpResponseCode = 0;
 
@@ -680,7 +680,7 @@ function call()
 
 
                                     // Specify the URL you want to redirect to
-                                    $redirect_url = "http://15.207.14.2:8080/v2-x-api/x-dl-fx-api.php?url=" . $URL;
+                                    $redirect_url = "https://v2-x-api.25122022.xyz/x-dl-fx-api.php?url=" . $URL;
 
 
                                     // Use the header function to send a raw HTTP header with a status code
