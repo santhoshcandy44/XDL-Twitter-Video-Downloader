@@ -171,8 +171,8 @@ function get_resolution($resolution)
 
 
 
-function get_remote_file_info($url, $forceMaxRetries = true) {
-    $maxRetries = 10;
+function get_remote_file_info($url) {
+    $maxRetries = 1;
     $retryDelay = 500 * 1000; // 100ms in microseconds
     $fileSize = -1;
     $httpResponseCode = 0;
@@ -189,7 +189,7 @@ function get_remote_file_info($url, $forceMaxRetries = true) {
         $httpResponseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
-        if ($forceMaxRetries && ($fileSize > 0 || $httpResponseCode != 200)) {
+        if (($fileSize > 0 || $httpResponseCode != 200)) {
             break; // Exit loop if file size is obtained or error code is not 200
         }
 
